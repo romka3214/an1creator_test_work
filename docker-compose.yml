@@ -4,7 +4,7 @@ services:
         ports:
             - "5173:5173"
         volumes:
-            - .:/var/www:cached
+            - .:/var/www:delegated
     nginx:
         image: nginx
         ports:
@@ -16,19 +16,18 @@ services:
         depends_on:
             - php
     db:
-        image: mysql:8.1
-        ports:
-            - "3306:3306"
-        volumes:
-            - .docker/db/data:/var/lib/mysql
-            - .docker/logs:/var/log/mysql
-            - .docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-            - .docker/db/sql:/docker-entrypoint-initdb.d
+        image: percona/percona-server:8.0.36-28.1-multi
         environment:
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
             MYSQL_DATABASE: laravel
             MYSQL_USER: laravel
             MYSQL_PASSWORD: laravel
+            TZ: ${TZ:-Europe/Moscow}
+        volumes:
+            - volume_db:/var/lib/mysql:consistent
+            - .docker/db:/etc/my.cnf.d:ro
+        ports:
+            - "127.0.0.1:53306:3306"
     redis:
         image: redis:latest
         command: redis-server --appendonly yes
@@ -36,3 +35,7 @@ services:
         - .docker/redis/data:/data
         ports:
         - "6379:6379"
+volumes:
+    volume_db:
+        name: db
+        external: false

@@ -5,3 +5,5 @@ setup:
 	docker compose down
 docker:
 	docker compose up
+docker_down:
+	docker compose down
