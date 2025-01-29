@@ -1,9 +1,9 @@
 build:
-	docker compose up -d --build
+	@UID=$$(id -u) GID=$$(id -g) docker compose up -d --build
 setup:
-	docker compose exec php bash -c "composer setup"
+	@UID=$$(id -u) GID=$$(id -g) docker compose exec php bash -c "composer setup"
 	docker compose down
 docker:
-	docker compose up
+	@UID=$$(id -u) GID=$$(id -g) docker compose up
 docker_down:
 	docker compose down

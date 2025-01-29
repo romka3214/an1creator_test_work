@@ -59,5 +59,5 @@ EXPOSE 5173
 WORKDIR /var/www
 
 #entrypoint
-ENTRYPOINT ["entrypoint.sh"]
+#ENTRYPOINT ["entrypoint.sh"]
 CMD ["php-fpm"]

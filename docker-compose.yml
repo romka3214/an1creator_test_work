@@ -1,5 +1,6 @@
 services:
     php:
+        user: "${UID}:${GID}"
         build: .docker/php
         ports:
             - "5173:5173"
