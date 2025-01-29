@@ -29,17 +29,6 @@ RUN pecl install redis && docker-php-ext-enable redis
 # pcov
 RUN pecl install pcov && docker-php-ext-enable pcov
 
-# Xdebug
-# RUN pecl install xdebug \
-# && docker-php-ext-enable xdebug \
-# && echo ";zend_extension=xdebug" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-# Node.js, NPM, Yarn
-RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install npm@latest -g
-RUN npm install yarn -g
-
 # Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php
@@ -59,5 +48,5 @@ EXPOSE 5173
 WORKDIR /var/www
 
 #entrypoint
-#ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["php-fpm"]
